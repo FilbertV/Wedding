@@ -18,19 +18,20 @@ const CONFIG = {
   groomName:  "Kustan",
   initials:   "K&R",                       // shown on the wax seal
 
-  dateISO:    "2026-09-12T16:00:00+07:00", // used for the countdown
+  dateISO:    "2026-09-12T10:00:00+07:00", // used for the countdown
   dateText:   "Saturday, 12 September 2026",
-  ceremony:   "16.00 WIB",
-  reception:  "18.00 WIB — end",
+  ceremony:   "10.00 WIB",
+  reception:  "12.00 WIB — end",
 
   venueName:  "The Royal Jade",
   venueArea:  "Season City, Jakarta Barat",
   mapsUrl:    "https://www.google.com/maps/search/?api=1&query=The+Royal+Jade+Season+City",
 
-  /* Paste your Google Apps Script Web App URL here (see README.md).
-     Leave it "" and the site still works — RSVPs and wishes just stay on
-     the guest's own device instead of reaching the sheet.                */
-  scriptUrl:  "",
+  /* Paste your Google Apps Script Web App URL here (see README.md) — the
+     full "https://script.google.com/macros/s/.../exec" address, keeping
+     the quotes and the trailing comma. Until it is set, nothing reaches
+     the sheet and RSVPs tell the guest so instead of faking success.     */
+  scriptUrl:  "https://script.google.com/macros/s/AKfycbwiovZtsCD4S6MCeO0k9-lcyQTwVCBjAsthTJsTI3BVa7_LRjFp0l5hRqOyCs78KrgP/exec",
 
   /* No hardcoded wishes — the marquee only shows wishes guests actually
      submit (pulled live from the Wishes tab once scriptUrl is set).      */
@@ -627,9 +628,9 @@ footer p{
 
         <div class="detail-row">
           <h4>Holy Matrimony</h4>
-          <p id="dCeremony">16.00 WIB</p>
+          <p id="dCeremony">10.00 WIB</p>
           <h4 style="margin-top:18px">Reception</h4>
-          <p id="dReception">18.00 WIB — end</p>
+          <p id="dReception">12.00 WIB — end</p>
         </div>
 
         <div class="detail-row">

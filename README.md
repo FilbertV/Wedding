@@ -18,10 +18,10 @@ The `CONFIG` block at the top of `index.html` (around line 15) is already filled
 brideName:  "Riana",
 groomName:  "Kustan",
 initials:   "K&R",                        // on the gold wax seal
-dateISO:    "2026-09-12T16:00:00+07:00",  // drives the countdown
+dateISO:    "2026-09-12T10:00:00+07:00",  // drives the countdown
 dateText:   "Saturday, 12 September 2026",
-ceremony:   "16.00 WIB",
-reception:  "18.00 WIB — end",
+ceremony:   "10.00 WIB",
+reception:  "12.00 WIB — end",
 venueName:  "The Royal Jade",
 venueArea:  "Season City, Jakarta Barat",
 ```
