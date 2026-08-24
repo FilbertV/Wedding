@@ -50,24 +50,54 @@ function doPost(e) {
 }
 
 
-/** GET — the site asks for the wish wall (JSONP, so the browser can read it). */
+/**
+ * GET — everything the site does goes through here as JSONP, because a
+ * browser can read a JSONP response but cannot read a no-cors POST. That
+ * is what lets the site tell a guest "saved" only when it really saved.
+ *
+ *   ?type=wishes                → { ok:true, wishes:[{name,message}, ...] }
+ *   ?type=wish&name=&message=   → writes a wish,  { ok:true }
+ *   ?type=rsvp&name=&...        → writes an RSVP, { ok:true }
+ */
 function doGet(e) {
   var p = (e && e.parameter) ? e.parameter : {};
-  var out = [];
+  var out;
 
-  if (p.action === 'wishes') {
-    try {
-      var sh = SpreadsheetApp.openById(SHEET_ID).getSheetByName(WISHES_TAB);
+  try {
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+
+    if (p.type === 'wish') {
+      writeRow_(ss, WISHES_TAB, WISHES_HEAD, [
+        new Date(),
+        clean_(p.name, 80),
+        clean_(p.message, 500)
+      ]);
+      out = { ok: true };
+
+    } else if (p.type === 'rsvp') {
+      writeRow_(ss, RSVP_TAB, RSVP_HEAD, [
+        new Date(),
+        clean_(p.name, 100),
+        clean_(p.phone, 40),
+        clean_(p.attendance, 30),
+        clean_(p.guests, 10),
+        clean_(p.message, 500)
+      ]);
+      out = { ok: true };
+
+    } else {
+      var wishes = [];
+      var sh = ss.getSheetByName(WISHES_TAB);
       if (sh && sh.getLastRow() > 1) {
-        var rows = sh.getRange(2, 1, sh.getLastRow() - 1, 3).getValues();
-        out = rows
+        wishes = sh.getRange(2, 1, sh.getLastRow() - 1, 3).getValues()
           .filter(function (r) { return r[1] && r[2]; })
           .slice(-60)                          // newest 60 wishes
           .map(function (r) { return { name: String(r[1]), message: String(r[2]) }; });
       }
-    } catch (err) {
-      out = [];
+      out = { ok: true, wishes: wishes };
     }
+  } catch (err) {
+    out = { ok: false, error: String(err) };
   }
 
   if (p.callback) {
@@ -76,6 +106,18 @@ function doGet(e) {
       .setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
   return json_(out);
+}
+
+
+/** Appends one row, serialised so two guests submitting at once can't clash. */
+function writeRow_(ss, tab, header, row) {
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    getTab_(ss, tab, header).appendRow(row);
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 

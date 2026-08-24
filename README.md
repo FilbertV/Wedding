@@ -127,9 +127,24 @@ Shows: *Dear Kevin & Sarah — Click the envelope to open*.
 - **RSVP** — gold button opens a form: name, WhatsApp, attending yes/no,
   number of guests, optional message. It writes straight into your sheet.
 
-If `scriptUrl` is left empty, nothing breaks — submissions just stay on the
-guest's own device instead of reaching the sheet. Fill it in before you share
-the link.
+> **`scriptUrl` must be filled in before you share the link.** Until it is,
+> the site is not connected to the sheet: an RSVP shows *"This invitation is
+> not connected to the guest list yet"* rather than pretending to succeed, and
+> nothing reaches your spreadsheet. This is the usual reason for "guests
+> submitted but the sheet is empty".
+
+### Checking the connection
+
+Paste your Web App URL straight into a browser tab with `?type=wishes` on the
+end:
+
+```
+https://script.google.com/macros/s/AKfycb...../exec?type=wishes
+```
+
+- `{"ok":true,"wishes":[...]}` → working.
+- A Google sign-in or permission page → redeploy with **Who has access: Anyone**.
+- `{"ok":false,"error":...}` → the message names the problem.
 
 ---
 

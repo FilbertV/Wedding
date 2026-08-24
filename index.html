@@ -683,6 +683,7 @@ footer p{
         <div class="done" id="wDone">
           <div class="script" style="font-size:clamp(32px,9vw,46px)">Thank you</div>
           <p style="margin-top:8px">Your wish is now floating across the screen above.</p>
+          <p class="note" id="wDoneNote"></p>
           <button class="btn ghost" style="margin-top:18px;border-color:var(--gold-3);color:var(--gold-2)" id="wAgain">Write another</button>
         </div>
       </div>
@@ -922,29 +923,43 @@ tick(); setInterval(tick,1000);
    ================================================================== */
 const LS_WISHES = 'wedding_wishes_local_v1';
 
-function post(payload){
-  if (!CONFIG.scriptUrl) return Promise.resolve({local:true});
-  return fetch(CONFIG.scriptUrl,{
-    method:'POST',
-    mode:'no-cors',                 // simple request → no CORS preflight
-    headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-    body:new URLSearchParams(payload)
-  }).then(()=>({sent:true}));
-}
-
-/* Read wishes back with JSONP — a no-cors POST can't read a response. */
-function fetchWishes(){
-  return new Promise(resolve=>{
-    if (!CONFIG.scriptUrl) return resolve([]);
-    const cb = '__wcb' + Math.random().toString(36).slice(2);
+/* Every call goes through JSONP. A no-cors POST cannot read its response,
+   which means a broken/undeployed script would still look like success —
+   the exact failure that hides missing guests. JSONP gives us the real
+   answer back, so the guest is only told "saved" when it truly saved.   */
+function callScript(params){
+  return new Promise((resolve,reject)=>{
+    if (!CONFIG.scriptUrl){
+      // Not connected to the sheet yet — say so instead of faking success.
+      return resolve({ ok:false, notConnected:true });
+    }
+    const cb = '__scb' + Math.random().toString(36).slice(2);
     const s  = document.createElement('script');
-    const to = setTimeout(()=>{ cleanup(); resolve([]); }, 8000);
+    const to = setTimeout(()=>{ cleanup(); reject(new Error('timeout')); }, 15000);
     function cleanup(){ clearTimeout(to); delete window[cb]; s.remove(); }
-    window[cb] = data => { cleanup(); resolve(Array.isArray(data) ? data : []); };
-    s.onerror = ()=>{ cleanup(); resolve([]); };
-    s.src = CONFIG.scriptUrl + '?action=wishes&callback=' + cb;
+    window[cb]  = data => { cleanup(); resolve(data || {}); };
+    s.onerror   = ()=>   { cleanup(); reject(new Error('network')); };
+    const q = new URLSearchParams(params);
+    q.set('callback', cb);
+    q.set('_', Date.now());          // cache-buster
+    s.src = CONFIG.scriptUrl + (CONFIG.scriptUrl.indexOf('?') > -1 ? '&' : '?') + q.toString();
     document.head.appendChild(s);
   });
+}
+
+/* Writes a row and resolves only once the script confirms it. */
+function post(payload){
+  return callScript(payload).then(res=>{
+    if (res.notConnected) return res;               // handled by the caller
+    if (!res.ok) throw new Error(res.error || 'The sheet rejected the entry.');
+    return res;
+  });
+}
+
+function fetchWishes(){
+  return callScript({ type:'wishes' })
+    .then(res => Array.isArray(res.wishes) ? res.wishes : [])
+    .catch(()=> []);
 }
 
 /* ==================================================================
@@ -1005,12 +1020,21 @@ $('#wishForm').addEventListener('submit', e=>{
   btn.disabled = true; btn.textContent = 'Sending…';
 
   const entry = { name:name, message:msg };
-  post({ type:'wish', name:name, message:msg }).catch(()=>{}).then(()=>{
+  post({ type:'wish', name:name, message:msg }).then(res=>{
     saveLocal(entry);
     wishes.push(entry);
     renderWishes();
     $('#wishForm').style.display = 'none';
     $('#wDone').classList.add('show');
+    if (res.notConnected){
+      $('#wDoneNote').textContent =
+        'Note: this invitation is not connected to the couple’s sheet yet, ' +
+        'so your wish is only saved on this device.';
+    }
+  }).catch(ex=>{
+    err.textContent = 'Sorry, your wish could not be saved. Please try again.';
+    console.error('Wish submit failed:', ex);
+  }).then(()=>{
     btn.disabled = false; btn.textContent = 'Send wish';
   });
 });
@@ -1071,12 +1095,22 @@ $('#rsvpForm').addEventListener('submit', e=>{
   const btn = $('#rSubmit');
   btn.disabled = true; btn.textContent = 'Sending…';
 
-  post(payload).catch(()=>{}).then(()=>{
+  post(payload).then(res=>{
+    if (res.notConnected){
+      // Never claim a guest is on the list when nothing was recorded.
+      err.textContent = 'This invitation is not connected to the guest list yet. '
+                      + 'Please let the couple know, or try again shortly.';
+      return;
+    }
     $('#rsvpFormWrap').style.display = 'none';
     $('#rDone').classList.add('show');
     $('#rDoneMsg').textContent = attending === 'Attending'
       ? "You're on the guest list. Thank you for confirming."
       : "Thank you for letting us know. You'll be missed.";
+  }).catch(ex=>{
+    err.textContent = 'Sorry, your RSVP could not be sent. Please try again.';
+    console.error('RSVP submit failed:', ex);
+  }).then(()=>{
     btn.disabled = false; btn.textContent = 'Send RSVP';
   });
 });
