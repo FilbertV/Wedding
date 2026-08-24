@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>You're Invited — Wedding Invitation</title>
-<meta name="description" content="Wedding invitation & RSVP — The Royal Jade, Season City">
+<meta name="description" content="Wedding invitation & RSVP — Gereja GBI Nafiri Green Ville NDC & The Royal Jade, Season City">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -14,18 +14,29 @@
    1) EDIT EVERYTHING IN THIS BLOCK — nothing else is required.
    ============================================================ */
 const CONFIG = {
-  brideName:  "Riana",
-  groomName:  "Kustan",
-  initials:   "K&R",                       // shown on the wax seal
+  brideName:  "Suriyana",
+  groomName:  "Kustan Suparman",
+  initials:   "K&S",                       // shown on the wax seal
+
+  // Full names + family line, shown under the hero names.
+  groomFullName: "Kustan Suparman",
+  groomRelation: "Putra tunggal dari",
+  groomParents:  "Alm. Bapak Suparman & Alm. Ibu Soh Sioe Koei",
+  brideFullName: "Suriyana",
+  brideRelation: "Putri tunggal dari",
+  brideParents:  "Bapak Bong Kim Hian & Ibu Djong Djie Lian",
 
   dateISO:    "2026-09-12T10:00:00+07:00", // used for the countdown
   dateText:   "Saturday, 12 September 2026",
   ceremony:   "10.00 WIB",
   reception:  "12.00 WIB — end",
 
-  venueName:  "The Royal Jade",
-  venueArea:  "Season City, Jakarta Barat",
-  mapsUrl:    "https://www.google.com/maps/search/?api=1&query=The+Royal+Jade+Season+City",
+  // Holy Matrimony and Reception are two different places.
+  ceremonyVenue:    "Gereja GBI Nafiri Green Ville NDC",
+  ceremonyMapsUrl:  "https://www.google.com/maps/search/?api=1&query=Gereja+GBI+Nafiri+Green+Ville+NDC",
+  receptionVenue:   "The Royal Jade",
+  receptionArea:    "Season City, Jakarta Barat",
+  receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Royal+Jade+Season+City",
 
   /* Paste your Google Apps Script Web App URL here (see README.md) — the
      full "https://script.google.com/macros/s/.../exec" address, keeping
@@ -382,6 +393,17 @@ section{position:relative;z-index:2;padding:clamp(56px,11vh,110px) 22px}
 }
 .detail-row p{font-size:clamp(16px,4.4vw,20px);line-height:1.55}
 .detail-row .big{font-family:var(--script);font-size:clamp(30px,8vw,42px);color:var(--gold-2);line-height:1.1}
+.detail-row .venue-name{font-weight:600;color:var(--gold-2);margin-top:6px}
+.detail-row .btn{margin-top:14px}
+
+/* couple / family block */
+.person{padding:8px 0}
+.person .p-name{font-family:var(--script);font-size:clamp(28px,7.5vw,40px);color:var(--gold-2);line-height:1.1}
+.person .p-rel{
+  font-family:var(--sans);font-weight:300;letter-spacing:.18em;
+  text-transform:uppercase;font-size:11px;color:var(--ink-soft);margin-top:10px;
+}
+.person .p-parents{font-family:var(--serif);font-size:clamp(15px,4vw,17px);line-height:1.55;margin-top:4px}
 
 /* buttons */
 .btn{
@@ -404,6 +426,7 @@ section{position:relative;z-index:2;padding:clamp(56px,11vh,110px) 22px}
 .btn.ghost{background:transparent;color:#fff3da;border-color:rgba(255,236,186,.65);box-shadow:none}
 .btn.ghost:hover{background:rgba(255,236,186,.12)}
 .btn.block{display:block;width:100%}
+.btn.small{padding:10px 20px;font-size:10.5px}
 .btn[disabled]{opacity:.6;cursor:default;transform:none}
 
 /* ------------------------------------------------------------------ */
@@ -586,9 +609,9 @@ footer p{
     <div class="wrap">
       <div class="eyebrow reveal">The wedding of</div>
       <h1 class="script names reveal" style="margin-top:10px">
-        <span id="heroBride">Aletta</span>
-        <span class="amp">and</span>
         <span id="heroGroom">Rian</span>
+        <span class="amp">and</span>
+        <span id="heroBride">Suriyana</span>
       </h1>
       <div class="divider reveal">
         <span class="line"></span>
@@ -604,9 +627,34 @@ footer p{
         <div><b id="cd-s">00</b><small>Secs</small></div>
       </div>
 
-      <a href="#details" class="scroll-cue reveal" aria-label="Scroll down">
+      <a href="#couple" class="scroll-cue reveal" aria-label="Scroll down">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f6dfa4" stroke-width="1.2"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
       </a>
+    </div>
+  </section>
+
+  <!-- COUPLE -->
+  <section id="couple">
+    <div class="wrap">
+      <div class="card reveal">
+        <div class="person">
+          <div class="p-name" id="groomFullName">Kustan Suparman</div>
+          <div class="p-rel" id="groomRelation">Putra tunggal dari</div>
+          <div class="p-parents" id="groomParents">Alm. Bapak Suparman &amp; Alm. Ibu Soh Sioe Koei</div>
+        </div>
+
+        <div class="divider">
+          <span class="line"></span>
+          <svg viewBox="0 0 24 24" fill="#c49a3c"><path d="M12 2c1.2 3.4 3.4 5.6 6.8 6.8-3.4 1.2-5.6 3.4-6.8 6.8-1.2-3.4-3.4-5.6-6.8-6.8C8.6 7.6 10.8 5.4 12 2z"/></svg>
+          <span class="line r"></span>
+        </div>
+
+        <div class="person">
+          <div class="p-name" id="brideFullName">Suriyana</div>
+          <div class="p-rel" id="brideRelation">Putri tunggal dari</div>
+          <div class="p-parents" id="brideParents">Bapak Bong Kim Hian &amp; Ibu Djong Djie Lian</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -629,17 +677,17 @@ footer p{
         <div class="detail-row">
           <h4>Holy Matrimony</h4>
           <p id="dCeremony">10.00 WIB</p>
-          <h4 style="margin-top:18px">Reception</h4>
-          <p id="dReception">12.00 WIB — end</p>
+          <p class="venue-name" id="dCeremonyVenue">Gereja GBI Nafiri Green Ville NDC</p>
+          <a class="btn ghost small" id="ceremonyMapsBtn" href="#" target="_blank" rel="noopener" style="border-color:var(--gold-3);color:var(--gold-2)">View location</a>
         </div>
 
         <div class="detail-row">
-          <h4>Where</h4>
-          <p class="big" id="dVenue">The Royal Jade</p>
-          <p id="dArea" style="margin-top:4px">Season City, Jakarta Barat</p>
+          <h4>Reception</h4>
+          <p id="dReception">12.00 WIB — end</p>
+          <p class="venue-name" id="dReceptionVenue">The Royal Jade</p>
+          <p id="dReceptionArea" style="margin-top:2px">Season City, Jakarta Barat</p>
+          <a class="btn ghost small" id="receptionMapsBtn" href="#" target="_blank" rel="noopener" style="border-color:var(--gold-3);color:var(--gold-2)">View location</a>
         </div>
-
-        <a class="btn" id="mapsBtn" href="#" target="_blank" rel="noopener">View location</a>
       </div>
     </div>
   </section>
@@ -740,8 +788,7 @@ footer p{
         <div class="field" id="guestsField">
           <label for="rGuests">Number of guests (including you)</label>
           <select id="rGuests" name="guests">
-            <option>1</option><option>2</option><option>3</option>
-            <option>4</option><option>5</option><option>6+</option>
+            <option>1</option><option>2</option>
           </select>
         </div>
         <div class="field">
@@ -816,18 +863,29 @@ const $  = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
 
 $('#sealText').textContent    = CONFIG.initials;
-$('#letterNames').textContent = (CONFIG.brideName + '  &  ' + CONFIG.groomName).toUpperCase();
+$('#letterNames').textContent = (CONFIG.groomName + '  &  ' + CONFIG.brideName).toUpperCase();
 $('#heroBride').textContent   = CONFIG.brideName;
 $('#heroGroom').textContent   = CONFIG.groomName;
 $('#heroDate').textContent    = CONFIG.dateText;
-$('#dDate').textContent       = CONFIG.dateText;
-$('#dCeremony').textContent   = CONFIG.ceremony;
-$('#dReception').textContent  = CONFIG.reception;
-$('#dVenue').textContent      = CONFIG.venueName;
-$('#dArea').textContent       = CONFIG.venueArea;
-$('#mapsBtn').href            = CONFIG.mapsUrl;
-$('#footNames').textContent   = CONFIG.brideName + '  &  ' + CONFIG.groomName;
-document.title = "You're Invited — " + CONFIG.brideName + " & " + CONFIG.groomName;
+
+$('#groomFullName').textContent = CONFIG.groomFullName;
+$('#groomRelation').textContent = CONFIG.groomRelation;
+$('#groomParents').textContent  = CONFIG.groomParents;
+$('#brideFullName').textContent = CONFIG.brideFullName;
+$('#brideRelation').textContent = CONFIG.brideRelation;
+$('#brideParents').textContent  = CONFIG.brideParents;
+
+$('#dDate').textContent         = CONFIG.dateText;
+$('#dCeremony').textContent     = CONFIG.ceremony;
+$('#dCeremonyVenue').textContent= CONFIG.ceremonyVenue;
+$('#ceremonyMapsBtn').href      = CONFIG.ceremonyMapsUrl;
+$('#dReception').textContent    = CONFIG.reception;
+$('#dReceptionVenue').textContent = CONFIG.receptionVenue;
+$('#dReceptionArea').textContent  = CONFIG.receptionArea;
+$('#receptionMapsBtn').href       = CONFIG.receptionMapsUrl;
+
+$('#footNames').textContent   = CONFIG.groomName + '  &  ' + CONFIG.brideName;
+document.title = "You're Invited — " + CONFIG.groomName + " & " + CONFIG.brideName;
 
 /* Optional: personalise per guest with ?to=Name in the link you send */
 const guestParam = new URLSearchParams(location.search).get('to');

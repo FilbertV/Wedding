@@ -1,4 +1,4 @@
-# Wedding Invitation — Kustan &amp; Riana
+# Wedding Invitation — Kustan Suparman &amp; Suriyana
 
 Three files:
 
@@ -15,19 +15,31 @@ Three files:
 The `CONFIG` block at the top of `index.html` (around line 15) is already filled in:
 
 ```js
-brideName:  "Riana",
-groomName:  "Kustan",
-initials:   "K&R",                        // on the gold wax seal
+brideName:  "Suriyana",
+groomName:  "Kustan Suparman",
+initials:   "K&S",                        // on the gold wax seal
+
+groomFullName: "Kustan Suparman",
+groomRelation: "Putra tunggal dari",
+groomParents:  "Alm. Bapak Suparman & Alm. Ibu Soh Sioe Koei",
+brideFullName: "Suriyana",
+brideRelation: "Putri tunggal dari",
+brideParents:  "Bapak Bong Kim Hian & Ibu Djong Djie Lian",
+
 dateISO:    "2026-09-12T10:00:00+07:00",  // drives the countdown
 dateText:   "Saturday, 12 September 2026",
 ceremony:   "10.00 WIB",
 reception:  "12.00 WIB — end",
-venueName:  "The Royal Jade",
-venueArea:  "Season City, Jakarta Barat",
+
+ceremonyVenue:    "Gereja GBI Nafiri Green Ville NDC",
+receptionVenue:   "The Royal Jade",
+receptionArea:    "Season City, Jakarta Barat",
 ```
 
 Adjust the ceremony/reception times if needed. `dateISO` must keep the shape
-`YYYY-MM-DDTHH:MM:SS+07:00` (`+07:00` = WIB).
+`YYYY-MM-DDTHH:MM:SS+07:00` (`+07:00` = WIB). The ceremony and reception each
+have their own venue and their own "View location" button — set that in mind
+if the couple ever marries and celebrates at the same place.
 
 `seedWishes` is intentionally empty — the wish wall only ever shows wishes
 guests actually submit. It reads live from the **Wishes** tab once
@@ -114,18 +126,21 @@ Shows: *Dear Kevin & Sarah — Click the envelope to open*.
 
 ## How it behaves
 
-- **Envelope cover** — gold satin backdrop, floral sprigs, wax seal with "K&R".
+- **Envelope cover** — gold satin backdrop, floral sprigs, wax seal with "K&S".
   Tap (mobile) or click (desktop) anywhere on the envelope: the seal breaks,
   the flap folds open, the letter rises, a soft gold flash carries you into
   the invitation.
-- **Invitation** — names, live countdown to 12 Sep 2026, ceremony/reception
-  times, venue (The Royal Jade, Season City) with a "View location" button that
-  opens Google Maps.
+- **Invitation** — names, live countdown to 12 Sep 2026, then a family card
+  (full name, "Putra/Putri tunggal dari", parents) for each of the couple.
+- **Ceremony & reception** — each with its own time, venue, and "View location"
+  button: Holy Matrimony at Gereja GBI Nafiri Green Ville NDC, reception at
+  The Royal Jade, Season City.
 - **Wedding wishes** — two rows drifting in opposite directions, empty until
   guests submit. Hovering pauses them. A guest's own wish appears immediately
   after submitting.
 - **RSVP** — gold button opens a form: name, WhatsApp, attending yes/no,
-  number of guests, optional message. It writes straight into your sheet.
+  number of guests (1 or 2), optional message. It writes straight into your
+  sheet.
 
 > **`scriptUrl` must be filled in before you share the link.** Until it is,
 > the site is not connected to the sheet: an RSVP shows *"This invitation is
