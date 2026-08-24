@@ -18,8 +18,8 @@ The `CONFIG` block at the top of `index.html` (around line 15) is already filled
 brideName:  "Riana",
 groomName:  "Kustan",
 initials:   "K&R",                        // on the gold wax seal
-dateISO:    "2026-11-12T16:00:00+07:00",  // drives the countdown
-dateText:   "Thursday, 12 November 2026",
+dateISO:    "2026-09-12T16:00:00+07:00",  // drives the countdown
+dateText:   "Saturday, 12 September 2026",
 ceremony:   "16.00 WIB",
 reception:  "18.00 WIB — end",
 venueName:  "Angke Heritage",
@@ -118,7 +118,7 @@ Shows: *Dear Kevin & Sarah — Click the envelope to open*.
   Tap (mobile) or click (desktop) anywhere on the envelope: the seal breaks,
   the flap folds open, the letter rises, a soft gold flash carries you into
   the invitation.
-- **Invitation** — names, live countdown to 12 Nov 2026, ceremony/reception
+- **Invitation** — names, live countdown to 12 Sep 2026, ceremony/reception
   times, venue (Angke Heritage, PIK 2) with a "View location" button that
   opens Google Maps.
 - **Wedding wishes** — two rows drifting in opposite directions, empty until
