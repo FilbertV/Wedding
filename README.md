@@ -22,8 +22,8 @@ dateISO:    "2026-09-12T16:00:00+07:00",  // drives the countdown
 dateText:   "Saturday, 12 September 2026",
 ceremony:   "16.00 WIB",
 reception:  "18.00 WIB — end",
-venueName:  "Angke Heritage",
-venueArea:  "PIK 2, Jakarta Utara",
+venueName:  "The Royal Jade",
+venueArea:  "Season City, Jakarta Barat",
 ```
 
 Adjust the ceremony/reception times if needed. `dateISO` must keep the shape
@@ -119,7 +119,7 @@ Shows: *Dear Kevin & Sarah — Click the envelope to open*.
   the flap folds open, the letter rises, a soft gold flash carries you into
   the invitation.
 - **Invitation** — names, live countdown to 12 Sep 2026, ceremony/reception
-  times, venue (Angke Heritage, PIK 2) with a "View location" button that
+  times, venue (The Royal Jade, Season City) with a "View location" button that
   opens Google Maps.
 - **Wedding wishes** — two rows drifting in opposite directions, empty until
   guests submit. Hovering pauses them. A guest's own wish appears immediately
