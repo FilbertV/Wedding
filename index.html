@@ -38,6 +38,13 @@ const CONFIG = {
   receptionArea:    "Season City, Jakarta Barat",
   receptionMapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Royal+Jade+Season+City",
 
+  // Portraits shown in the editorial gallery below the opening.
+  photos: {
+    wedding: "assets/couple-wedding.jpeg",
+    emerald: "assets/couple-emerald.jpeg",
+    blue:    "assets/couple-blue.jpeg"
+  },
+
   /* Paste your Google Apps Script Web App URL here (see README.md) — the
      full "https://script.google.com/macros/s/.../exec" address, keeping
      the quotes and the trailing comma. Until it is set, nothing reaches
@@ -405,6 +412,43 @@ section{position:relative;z-index:2;padding:clamp(56px,11vh,110px) 22px}
 }
 .person .p-parents{font-family:var(--serif);font-size:clamp(15px,4vw,17px);line-height:1.55;margin-top:4px}
 
+/* editorial portrait gallery */
+#portraits{padding-top:clamp(20px,5vh,48px)}
+.portrait-intro{margin-bottom:28px}
+.portrait-intro .script{font-size:clamp(42px,11vw,66px);margin-top:8px}
+.portrait-grid{
+  display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
+  align-items:center;gap:clamp(12px,3.5vw,24px);
+  max-width:640px;margin:0 auto;
+}
+.portrait-frame{
+  position:relative;margin:0;padding:7px;
+  background:linear-gradient(135deg,#fffdf6,#dfc98f 45%,#fff6d9);
+  box-shadow:0 20px 42px rgba(34,20,0,.42);
+}
+.portrait-frame::after{
+  content:"";position:absolute;inset:14px;
+  border:1px solid rgba(255,252,239,.62);pointer-events:none;
+}
+.portrait-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.portrait-main{aspect-ratio:3/4;transform:rotate(-2deg)}
+.portrait-main img{object-position:center}
+.portrait-stack{display:grid;gap:clamp(14px,4vw,26px);padding:8px 0}
+.portrait-stack .portrait-frame{aspect-ratio:3/4}
+.portrait-stack .portrait-frame:first-child{transform:rotate(3deg) translateX(-3px)}
+.portrait-stack .portrait-frame:last-child{transform:rotate(-3deg) translateX(5px)}
+.portrait-note{
+  margin:30px auto 0;max-width:390px;text-align:center;
+  font-family:var(--serif);font-style:italic;font-size:clamp(17px,4.5vw,21px);
+  line-height:1.45;color:#fff4dc;text-shadow:0 2px 14px rgba(70,42,0,.55);
+}
+
+@media (max-width:380px){
+  .portrait-grid{gap:10px}
+  .portrait-frame{padding:5px}
+  .portrait-stack{gap:14px}
+}
+
 /* buttons */
 .btn{
   display:inline-block;
@@ -658,6 +702,33 @@ footer p{
     </div>
   </section>
 
+  <!-- PORTRAITS -->
+  <section id="portraits" aria-labelledby="portraitsTitle">
+    <div class="wrap portrait-intro reveal">
+      <div class="eyebrow">A glimpse of us</div>
+      <h2 class="script" id="portraitsTitle">The beginning of forever</h2>
+      <div class="divider">
+        <span class="line"></span>
+        <svg viewBox="0 0 24 24" fill="#f6dfa4" aria-hidden="true"><path d="M12 2c1.2 3.4 3.4 5.6 6.8 6.8-3.4 1.2-5.6 3.4-6.8 6.8-1.2-3.4-3.4-5.6-6.8-6.8C8.6 7.6 10.8 5.4 12 2z"/></svg>
+        <span class="line r"></span>
+      </div>
+    </div>
+    <div class="portrait-grid reveal">
+      <figure class="portrait-frame portrait-main">
+        <img data-photo="wedding" alt="Kustan and Suriyana in wedding attire" loading="lazy">
+      </figure>
+      <div class="portrait-stack">
+        <figure class="portrait-frame">
+          <img data-photo="emerald" alt="Kustan and Suriyana in an emerald-green portrait" loading="lazy">
+        </figure>
+        <figure class="portrait-frame">
+          <img data-photo="blue" alt="Kustan and Suriyana among flowers" loading="lazy">
+        </figure>
+      </div>
+    </div>
+    <p class="portrait-note reveal">A love to celebrate, today and always.</p>
+  </section>
+
   <!-- DETAILS -->
   <section id="details">
     <div class="wrap">
@@ -883,6 +954,10 @@ $('#dReception').textContent    = CONFIG.reception;
 $('#dReceptionVenue').textContent = CONFIG.receptionVenue;
 $('#dReceptionArea').textContent  = CONFIG.receptionArea;
 $('#receptionMapsBtn').href       = CONFIG.receptionMapsUrl;
+
+$$('[data-photo]').forEach(img=>{
+  img.src = CONFIG.photos[img.dataset.photo];
+});
 
 $('#footNames').textContent   = CONFIG.groomName + '  &  ' + CONFIG.brideName;
 document.title = "You're Invited — " + CONFIG.groomName + " & " + CONFIG.brideName;
